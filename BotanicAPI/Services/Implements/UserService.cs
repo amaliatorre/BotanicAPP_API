@@ -44,6 +44,8 @@ namespace BotanicAPI.Services.Implements
                 RegisterResponse registerResponse = new RegisterResponse();
                 foreach(var item in userObj) 
                 {
+                    profileEntity.ColorId = 1;
+                    profileEntity.AvatarId = 1;
                     profileEntity.UserId = (int)entityUserDb.Id;
                     profileEntity.Birthday = (DateTime)item.Birthday;
                     profileEntity.Gender = item.Gender;
@@ -52,7 +54,11 @@ namespace BotanicAPI.Services.Implements
                     profileEntity.Rol = item.Rol;    
 
                     profileEntity = _profileRepository.Create(profileEntity);
-                    
+
+                    if (object.ReferenceEquals(registerResponse.RegisterUser, null)) 
+                    {
+                        registerResponse.RegisterUser = new List<ProfileEntity>();
+                    }
                     registerResponse.RegisterUser.Add(profileEntity);
                     registerResponse.Email = entityUserDb.Email;
                 }                
